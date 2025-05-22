@@ -7,24 +7,26 @@ import { unstable_cache } from 'next/cache';
 type Global = keyof Config['globals'];
 
 async function getGlobal(slug: Global, depth = 0) {
-  const payload = await getPayload({ config: configPromise });
-  
-  console.log(`🚀 Debug getGlobal: Payload for "${slug}":`, payload);
+  try {
+    const payload = await getPayload({ config: configPromise });
+    
+    if (!payload) {
+      console.error(`❌ getGlobal Error: Payload is undefined for slug "${slug}"`);
+      return null;
+    }
 
-  if (!payload) {
-    console.error(`❌ getGlobal Error: Payload is undefined for slug "${slug}"`);
+    const global = await payload.findGlobal({ slug, depth });
+
+    if (!global) {
+      console.error(`❌ getGlobal Error: findGlobal() returned undefined for slug "${slug}"`);
+      return null;
+    }
+
+    return global;
+  } catch (error) {
+    console.error(`❌ getGlobal Error: Failed to fetch global "${slug}":`, error);
     return null;
   }
-
-  const global = await payload.findGlobal({ slug, depth });
-
-  if (!global) {
-    console.error(`❌ getGlobal Error: findGlobal() returned undefined for slug "${slug}"`);
-  } else {
-    console.log(`📌 Debug getGlobal: global.docs for "${slug}":`, global?.docs);
-  }
-
-  return global || null;
 }
 
 /**

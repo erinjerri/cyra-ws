@@ -2,9 +2,10 @@ import { getServerSideSitemap } from 'next-sitemap'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
+import type { SitemapEntry } from 'next-sitemap'
 
 const getPagesSitemap = unstable_cache(
-  async () => {
+  async (): Promise<SitemapEntry[]> => {
     const payload = await getPayload({ config })
     const SITE_URL =
       process.env.NEXT_PUBLIC_SERVER_URL ||
@@ -31,7 +32,7 @@ const getPagesSitemap = unstable_cache(
 
     const dateFallback = new Date().toISOString()
 
-    const defaultSitemap = [
+    const defaultSitemap: SitemapEntry[] = [
       {
         loc: `${SITE_URL}/search`,
         lastmod: dateFallback,
@@ -61,8 +62,7 @@ const getPagesSitemap = unstable_cache(
   },
 )
 
-export async function GET() {
+export async function GET(): Promise<Response> {
   const sitemap = await getPagesSitemap()
-
   return getServerSideSitemap(sitemap)
 }
