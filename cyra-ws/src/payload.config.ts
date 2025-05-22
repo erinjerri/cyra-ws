@@ -57,7 +57,6 @@ export default buildConfig({
 
   // sharp: {
   //   imageOptions: {
-  //     // Example config if needed later
   //     // resize: { width: 1200, height: 1200, fit: 'inside' },
   //     // quality: 80,
   //   },
