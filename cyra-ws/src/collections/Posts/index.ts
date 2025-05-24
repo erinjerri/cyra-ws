@@ -47,6 +47,7 @@ export const Posts: CollectionConfig<'posts'> = {
       description: true,
     },
   },
+  defaultSort: '-publishedAt',
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
@@ -175,9 +176,13 @@ export const Posts: CollectionConfig<'posts'> = {
       },
       hooks: {
         beforeChange: [
-          ({ siblingData, value }) => {
-            if (siblingData._status === 'published' && !value) {
-              return new Date()
+          ({ siblingData, value, originalDoc }) => {
+            // Only set publishedAt if it's being published and publishedAt is empty
+            if (
+              siblingData._status === 'published' &&
+              (!value || value === '')
+            ) {
+              return originalDoc?.publishedAt || new Date()
             }
             return value
           },
