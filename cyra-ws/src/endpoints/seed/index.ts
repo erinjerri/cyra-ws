@@ -314,13 +314,6 @@ export const seed = async ({
           {
             link: {
               type: 'custom',
-              label: 'Admin',
-              url: '/admin',
-            },
-          },
-          {
-            link: {
-              type: 'custom',
               label: 'Substack',
               newTab: true,
               url: 'https://erinjerri.substack.com',
