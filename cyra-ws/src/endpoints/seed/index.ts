@@ -321,17 +321,17 @@ export const seed = async ({
           {
             link: {
               type: 'custom',
-              label: 'Source Code',
+              label: 'Substack',
               newTab: true,
-              url: 'https://github.com/payloadcms/payload/tree/main/templates/website',
+              url: 'https://erinjerri.substack.com',
             },
           },
           {
             link: {
               type: 'custom',
-              label: 'Payload',
+              label: 'GitHub',
               newTab: true,
-              url: 'https://payloadcms.com/',
+              url: 'https://github.com/erinjerri/cyra-ws',
             },
           },
         ],
