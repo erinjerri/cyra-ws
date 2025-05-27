@@ -5,8 +5,6 @@ import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 import { cloudStorage } from '@payloadcms/plugin-cloud-storage'
-import { supabaseAdapter } from '@payloadcms/plugin-cloud-storage-supabase'
-
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
@@ -55,11 +53,14 @@ export default buildConfig({
     cloudStorage({
       collections: {
         media: {
-          adapter: supabaseAdapter({
-            supabaseURL: process.env.SUPABASE_URL,
-            supabaseKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
-            bucket: process.env.SUPABASE_BUCKET,
-          }),
+          adapter: {
+            name: 'supabase',
+            config: {
+              supabaseURL: process.env.SUPABASE_URL,
+              supabaseKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+              bucket: process.env.SUPABASE_BUCKET,
+            },
+          },
         },
       },
     }),
