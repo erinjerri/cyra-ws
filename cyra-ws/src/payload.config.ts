@@ -4,6 +4,8 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
+import { cloudStorage } from '@payloadcms/plugin-cloud-storage'
+import { supabaseAdapter } from '@payloadcms/plugin-cloud-storage-supabase'
 
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
@@ -50,8 +52,18 @@ export default buildConfig({
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
+    cloudStorage({
+      collections: {
+        media: {
+          adapter: supabaseAdapter({
+            supabaseURL: process.env.SUPABASE_URL,
+            supabaseKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+            bucket: process.env.SUPABASE_BUCKET,
+          }),
+        },
+      },
+    }),
     ...plugins,
-    // storage-adapter-placeholder
   ],
   secret: process.env.PAYLOAD_SECRET,
 
