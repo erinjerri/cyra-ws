@@ -49,6 +49,9 @@ export async function Footer() {
           </Link>
           <ThemeSelector />
           <nav className="flex flex-col md:flex-row gap-4">
+            <Link href="/" className="text-white font-semibold">
+              Home
+            </Link>
             {navItems.map(({ link }, i) => (
               <CMSLink className="text-white" key={i} {...link} />
             ))}
